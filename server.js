@@ -77,6 +77,22 @@ app.get("/favorites/:id", (req, res) => {
   }
 });
 
+app.post("/favorites", (req, res) => {
+  idNums = favorites.map((fav) => fav.id);
+  newID = idNums === 0 ? 1 : Math.max(...idNums) + 1;
+
+  const newFavorite = {
+    id: newID,
+    tmdbId: req.body.tmdbId,
+    title: req.body.title,
+    poster: req.body.poster,
+    genre: req.body.genre,
+    rating: req.body.rating,
+  };
+
+  favorites.push(newFavorite);
+});
+
 app.listen(PORT, () => {
   console.log(`listening on port: ${PORT}`);
 });
