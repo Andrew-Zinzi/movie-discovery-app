@@ -60,6 +60,10 @@ app.get("/movies/search", async (req, res) => {
   }
 });
 
+app.get("/favorites", (req, res) => {
+  return res.json(favorites);
+});
+
 app.listen(PORT, () => {
   console.log(`listening on port: ${PORT}`);
 });
