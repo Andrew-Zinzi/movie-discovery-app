@@ -5,6 +5,9 @@ import "dotenv/config";
 const PORT = process.env.PORT;
 const app = express();
 
+let favorites = [{}];
+let watchlist = [{}];
+
 app.use(cors());
 app.use(express.json());
 
@@ -41,7 +44,6 @@ app.get("/movies/search", async (req, res) => {
   }
   const url = `https://api.themoviedb.org/3/search/movie?query=${term}&include_adult=false&language=en-US&page=1`;
 
-  res.json(data);
   try {
     const response = await fetch(url, options);
     if (response.ok) {
