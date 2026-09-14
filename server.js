@@ -117,6 +117,7 @@ app.post("/favorites", (req, res) => {
       poster: rawMovie.poster_path
         ? `https://image.tmdb.org/t/p/w500${rawMovie.poster_path}`
         : null,
+      rating: 0,
     };
 
     favorites.push(newFavorite);
