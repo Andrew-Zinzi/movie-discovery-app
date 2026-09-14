@@ -120,6 +120,12 @@ app.post("/favorites", (req, res) => {
       rating: 0,
     };
 
+    app.put("/favorites/:id", (req, res) => {
+      const favorite = favorites.find(
+        (favorite) => favorite.id.toString() === req.params.id,
+      );
+    });
+
     favorites.push(newFavorite);
     return res.status(201).json(newFavorite);
   }
