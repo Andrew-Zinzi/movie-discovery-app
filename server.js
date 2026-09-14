@@ -124,6 +124,14 @@ app.post("/favorites", (req, res) => {
       const favorite = favorites.find(
         (favorite) => favorite.id.toString() === req.params.id,
       );
+
+      if (!favorite) {
+        return res.status(404).json({
+          error: "404 not found: The requested favorite ID does not exist",
+        });
+      } else {
+        return res.status(200).json(favorite);
+      }
     });
 
     favorites.push(newFavorite);
