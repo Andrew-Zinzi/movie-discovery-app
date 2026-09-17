@@ -155,8 +155,8 @@ app.delete("/favorites/:id", (req, res) => {
       error: "404 not found: The requested favorite ID does not exist",
     });
   } else {
-    favorites.splice(favorites.indexOf(favorite), 1);
-    return res.status(200).json(favorites);
+    favorites = favorites.filter((favorite) => favorite.id.toString() !== req.params.id)
+    return res.status(200).json(favorite);
   }
 });
 
