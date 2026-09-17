@@ -138,7 +138,9 @@ app.put("/favorites/:id", (req, res) => {
       error: "404 not found: The requested favorite ID does not exist",
     });
   } else {
-    favorite.rating = req.body.rating;
+    const { rating = 0 } = req.body
+
+    favorite.rating = rating;
     return res.status(200).json(favorite);
   }
 });
