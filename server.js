@@ -43,6 +43,7 @@ app.get("/movies/trending", async (req, res) => {
     const response = await fetch(url, options);
     if (response.ok) {
       const data = await response.json();
+      data.results.forEach((movie) => movieLookup.set(movie.id, movie));
       res.status(200).json(data);
     } else {
       throw new Error("Error response not okay");
@@ -136,7 +137,7 @@ app.put("/favorites/:id", (req, res) => {
       error: "404 not found: The requested favorite ID does not exist",
     });
   } else {
-    const { rating = 0 } = req.body
+    const { rating = 0 } = req.body;
 
     favorite.rating = rating;
     return res.status(200).json(favorite);
@@ -153,7 +154,9 @@ app.delete("/favorites/:id", (req, res) => {
       error: "404 not found: The requested favorite ID does not exist",
     });
   } else {
-    favorites = favorites.filter((favorite) => favorite.id.toString() !== req.params.id)
+    favorites = favorites.filter(
+      (favorite) => favorite.id.toString() !== req.params.id,
+    );
     return res.status(200).json(favorite);
   }
 });
