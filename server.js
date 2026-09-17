@@ -105,9 +105,7 @@ app.post("/favorites", (req, res) => {
   const idNums = favorites.map((fav) => fav.id).filter(Boolean);
   const newID = idNums.length === 0 ? 1 : Math.max(...idNums) + 1;
 
-  const rawMovie = movieLookup.get(Number(req.body[0]?.id));
-  // console.log(movieLookup);
-  // console.log(rawMovie);
+  const rawMovie = movieLookup.get(Number(req.body.id));
   if (!rawMovie) {
     return res.status(404).json({ error: "404 movie not found" });
   } else {
