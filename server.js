@@ -120,23 +120,23 @@ app.post("/favorites", (req, res) => {
       rating: 0,
     };
 
-    app.put("/favorites/:id", (req, res) => {
-      const favorite = favorites.find(
-        (favorite) => favorite.id.toString() === req.params.id,
-      );
-
-      if (!favorite) {
-        return res.status(404).json({
-          error: "404 not found: The requested favorite ID does not exist",
-        });
-      } else {
-        favorite.rating = req.body.rating;
-        return res.status(200).json(favorite);
-      }
-    });
-
     favorites.push(newFavorite);
     return res.status(201).json(newFavorite);
+  }
+});
+
+app.put("/favorites/:id", (req, res) => {
+  const favorite = favorites.find(
+    (favorite) => favorite.id.toString() === req.params.id,
+  );
+
+  if (!favorite) {
+    return res.status(404).json({
+      error: "404 not found: The requested favorite ID does not exist",
+    });
+  } else {
+    favorite.rating = req.body.rating;
+    return res.status(200).json(favorite);
   }
 });
 
