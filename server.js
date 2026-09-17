@@ -103,8 +103,8 @@ app.post("/favorites", (req, res) => {
   const newID = idNums.length === 0 ? 1 : Math.max(...idNums) + 1;
 
   const rawMovie = movieLookup.get(Number(req.body[0]?.id));
-  console.log(movieLookup);
-  console.log(rawMovie);
+  // console.log(movieLookup);
+  // console.log(rawMovie);
   if (!rawMovie) {
     return res.status(404).json({ error: "404 movie not found" });
   } else {
@@ -130,6 +130,7 @@ app.post("/favorites", (req, res) => {
           error: "404 not found: The requested favorite ID does not exist",
         });
       } else {
+        favorite.rating = req.body.rating;
         return res.status(200).json(favorite);
       }
     });
