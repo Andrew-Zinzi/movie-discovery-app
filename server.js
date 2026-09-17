@@ -81,6 +81,9 @@ app.get("/movies/search", async (req, res) => {
   }
 });
 
+// ------------------------------------
+// favorites routes
+
 app.get("/favorites", (req, res) => {
   return res.json(favorites);
 });
@@ -154,6 +157,9 @@ app.delete("/favorites/:id", (req, res) => {
     return res.status(200).json(favorites);
   }
 });
+
+// ------------------------------------
+// watchlist routes
 
 app.listen(PORT, () => {
   console.log(`listening on port: ${PORT}`);
