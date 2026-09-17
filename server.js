@@ -110,20 +110,24 @@ app.post("/favorites", (req, res) => {
   if (!rawMovie) {
     return res.status(404).json({ error: "404 movie not found" });
   } else {
-    const newFavorite = {
-      id: newID,
-      tmdbId: rawMovie.id,
-      title: rawMovie.title,
-      releaseDate: rawMovie.release_date,
-      genre: rawMovie.genre_ids.map((key) => genres.get(key) || "Unknown"),
-      poster: rawMovie.poster_path
-        ? `https://image.tmdb.org/t/p/w500${rawMovie.poster_path}`
-        : null,
-      rating: 0,
-    };
+    if (favorites.some((favorite) => favorite.tmdbId === rawMovie.id)) {
+      return res.status(409).json({ error: "409 movie already favorited" });
+    } else {
+      const newFavorite = {
+        id: newID,
+        tmdbId: rawMovie.id,
+        title: rawMovie.title,
+        releaseDate: rawMovie.release_date,
+        genre: rawMovie.genre_ids.map((key) => genres.get(key) || "Unknown"),
+        poster: rawMovie.poster_path
+          ? `https://image.tmdb.org/t/p/w500${rawMovie.poster_path}`
+          : null,
+        rating: 0,
+      };
 
-    favorites.push(newFavorite);
-    return res.status(201).json(newFavorite);
+      favorites.push(newFavorite);
+      return res.status(201).json(newFavorite);
+    }
   }
 });
 
