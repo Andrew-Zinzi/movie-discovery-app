@@ -172,16 +172,16 @@ app.get("/watchlist", (req, res) => {
   return res.json(watchlist);
 });
 
-app.get("/favorites/:id", (req, res) => {
-  const watchlist = watchlist.find(
-    (watchlist) => watchlist.id.toString() === req.params.id,
+app.get("/watchlist/:id", (req, res) => {
+  const watchlistItem = watchlist.find(
+    (item) => item.id.toString() === req.params.id,
   );
-  if (!watchlist) {
+  if (!watchlistItem) {
     return res.status(404).json({
       error: "404 not found: The requested watchlist ID does not exist",
     });
   } else {
-    return res.status(200).json(watchlist);
+    return res.status(200).json(watchlistItem);
   }
 });
 
