@@ -231,6 +231,23 @@ app.put("/watchlist/:id", (req, res) => {
   }
 });
 
+app.delete("/watchlist/:id", (req, res) => {
+  const watchlistItem = watchlist.find(
+    (watchlist) => watchlist.id.toString() === req.params.id,
+  );
+
+  if (!watchlistItem) {
+    return res.status(404).json({
+      error: "404 not found: The requested watchlist ID does not exist",
+    });
+  } else {
+    watchlist = watchlist.filter(
+      (watchlist) => watchlist.id.toString() !== req.params.id,
+    );
+    return res.status(200).json(watchlistItem);
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`listening on port: ${PORT}`);
 });
