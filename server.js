@@ -174,7 +174,7 @@ app.get("/watchlist", (req, res) => {
 
 app.get("/favorites/:id", (req, res) => {
   const watchlistItem = watchlist.find(
-    (watchlist) => watchlist.id.toString() === req.params.id,
+    (item) => item.id.toString() === req.params.id,
   );
   if (!watchlistItem) {
     return res.status(404).json({
