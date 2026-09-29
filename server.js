@@ -209,8 +209,25 @@ app.post("/watchlist", (req, res) => {
       };
 
       watchlist.push(newWatchlist);
-      return res.status(201).json(newWatchlist)
+      return res.status(201).json(newWatchlist);
     }
+  }
+});
+
+app.put("/watchlist/:id", (req, res) => {
+  const watchlistItem = watchlist.find(
+    (watchlist) => watchlist.id.toString() === req.params.id,
+  );
+
+  if (!watchlistItem) {
+    return res.status(404).json({
+      error: "404 not found: The requested watchlist ID does not exist",
+    });
+  } else {
+    const { rating = 0 } = req.body;
+
+    watchlistItem.rating = rating;
+    return res.status(200).json(watchlistItem);
   }
 });
 
