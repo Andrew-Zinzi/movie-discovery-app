@@ -168,6 +168,86 @@ app.delete("/favorites/:id", (req, res) => {
 // ------------------------------------
 // watchlist routes
 
+app.get("/watchlist", (req, res) => {
+  return res.json(watchlist);
+});
+
+app.get("/favorites/:id", (req, res) => {
+  const watchlist = watchlist.find(
+    (watchlist) => watchlist.id.toString() === req.params.id,
+  );
+  if (!watchlist) {
+    return res.status(404).json({
+      error: "404 not found: The requested watchlist ID does not exist",
+    });
+  } else {
+    return res.status(200).json(watchlist);
+  }
+});
+
+app.post("/watchlist", (req, res) => {
+  const idNums = favorites.map((fav) => fav.id).filter(Boolean);
+  const newID = idNums.length === 0 ? 1 : Math.max(...idNums) + 1;
+
+  const rawMovie = movieLookup.get(Number(req.body.id));
+  if (!rawMovie) {
+    return res.status(404).json({ error: "404 movie not found" });
+  } else {
+    if (watchlist.some((watchlist) => watchlist.tmdbId === rawMovie.id)) {
+      return res.status(409).json({ error: "409 movie already watchlisted" });
+    } else {
+      const newWatchlist = {
+        id: newID,
+        tmdbId: rawMovie.id,
+        title: rawMovie.title,
+        releaseDate: rawMovie.release_date,
+        genre: rawMovie.genre_ids.map((key) => genres.get(key) || "Unknown"),
+        poster: rawMovie.poster_path
+          ? `https://image.tmdb.org/t/p/w500${rawMovie.poster_path}`
+          : null,
+        rating: 0,
+      };
+
+      watchlist.push(newWatchlist);
+      return res.status(201).json(newWatchlist);
+    }
+  }
+});
+
+app.put("/watchlist/:id", (req, res) => {
+  const watchlistItem = watchlist.find(
+    (watchlist) => watchlist.id.toString() === req.params.id,
+  );
+
+  if (!watchlistItem) {
+    return res.status(404).json({
+      error: "404 not found: The requested watchlist ID does not exist",
+    });
+  } else {
+    const { rating = 0 } = req.body;
+
+    watchlistItem.rating = rating;
+    return res.status(200).json(watchlistItem);
+  }
+});
+
+app.delete("/watchlist/:id", (req, res) => {
+  const watchlistItem = watchlist.find(
+    (watchlist) => watchlist.id.toString() === req.params.id,
+  );
+
+  if (!watchlistItem) {
+    return res.status(404).json({
+      error: "404 not found: The requested watchlist ID does not exist",
+    });
+  } else {
+    watchlist = watchlist.filter(
+      (watchlist) => watchlist.id.toString() !== req.params.id,
+    );
+    return res.status(200).json(watchlistItem);
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`listening on port: ${PORT}`);
 });
