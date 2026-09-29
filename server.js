@@ -168,6 +168,10 @@ app.delete("/favorites/:id", (req, res) => {
 // ------------------------------------
 // watchlist routes
 
+app.get("/watchlist", (req, res) => {
+  return res.json(watchlist);
+});
+
 app.listen(PORT, () => {
   console.log(`listening on port: ${PORT}`);
 });
