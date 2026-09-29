@@ -185,6 +185,10 @@ app.get("/favorites/:id", (req, res) => {
   }
 });
 
+app.post("/watchlist", (req, res) => {
+  const idNums = favorites.map((fav) => fav.id).filter(Boolean);
+});
+
 app.listen(PORT, () => {
   console.log(`listening on port: ${PORT}`);
 });
