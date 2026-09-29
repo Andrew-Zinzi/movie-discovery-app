@@ -172,7 +172,7 @@ app.get("/watchlist", (req, res) => {
   return res.json(watchlist);
 });
 
-app.get("/favorites/:id", (req, res) => {
+app.get("/watchlist/:id", (req, res) => {
   const watchlistItem = watchlist.find(
     (item) => item.id.toString() === req.params.id,
   );
